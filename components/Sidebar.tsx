@@ -11,24 +11,22 @@ import ChatRow from './ChatRow';
 
 const Sidebar = () => {
   const router = useRouter();
-  const { closeMobileNav, isMobileNavOpen } = use(NavigationContext);
+  const { isMobileNavOpen, closeMobileNav } = use(NavigationContext);
+
   const chats = useQuery(api.chats.getChats);
   const createChat = useMutation(api.chats.createChat);
   const deleteChat = useMutation(api.chats.deleteChat);
 
-  console.log(isMobileNavOpen);
-
   const handleNewChat = async () => {
-    const chatId = await createChat({
-      title: 'New Chat',
-    });
-    router.push(`/chat/${chatId}`);
+    const chatId = await createChat({ title: 'New Chat' });
+    router.push(`/dashboard/chat/${chatId}`);
     closeMobileNav();
   };
 
-  const handleDeleteChat = async (chatId: Id<'chats'>) => {
-    await deleteChat({ id: chatId });
-    if (window.location.pathname.includes(chatId)) {
+  const handleDeleteChat = async (id: Id<'chats'>) => {
+    await deleteChat({ id });
+    // If we're currently viewing this chat, redirect to dashboard
+    if (window.location.pathname.includes(id)) {
       router.push('/dashboard');
     }
   };
@@ -43,7 +41,6 @@ const Sidebar = () => {
         />
       )}
 
-      {/* Sidebar */}
       <div
         className={cn(
           'fixed md:inset-y-0 top-14 bottom-0 left-0 z-50 w-72 bg-gray-50/80 backdrop-blur-xl border-r border-gray-200/50 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:top-0 flex flex-col',
