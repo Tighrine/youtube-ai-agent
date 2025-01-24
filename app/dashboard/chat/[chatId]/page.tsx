@@ -1,8 +1,8 @@
+import ChatUI from '@/components/ChatUI';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { getConvexClient } from '@/lib/convex';
 import { auth } from '@clerk/nextjs/server';
-import { useQuery } from 'convex/react';
 import { redirect } from 'next/navigation';
 
 const ChatPage = async ({
@@ -33,7 +33,11 @@ const ChatPage = async ({
 
   console.log(messages);
 
-  return <div>ChatPage: {chatId}</div>;
+  return (
+    <>
+      <ChatUI chatId={chatId} initialMessages={messages} />
+    </>
+  );
 };
 
 export default ChatPage;

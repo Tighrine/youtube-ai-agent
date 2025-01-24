@@ -1,5 +1,7 @@
+import WelcomeMessage from '@/components/WelcomeMessage';
+
 const DashboardPage = () => {
-  return <div>DashboardPage</div>;
+  return <WelcomeMessage />;
 };
 
 export default DashboardPage;
